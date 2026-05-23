@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/Navbar";
+import Layout from "./components/Layout";
 
 import Home from "./pages/Home";
 import Exams from "./pages/Exams";
@@ -13,10 +13,8 @@ import Login from "./pages/Login";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
-
-      <Routes>
+    <Layout>
+  <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/exams" element={<Exams />} />
         <Route path="/internships" element={<Internships />} />
@@ -25,7 +23,7 @@ export default function App() {
         <Route path="/semester/:id" element={<Semester />} />
         <Route path="/subject/:id" element={<Subject />} />
         <Route path="/login" element={<Login />} />
-      </Routes>
-    </div>
+     </Routes>
+</Layout>
   );
 }
