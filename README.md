@@ -1,16 +1,47 @@
-# React + Vite
+# IITG Student Hub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack student resource platform for IIT Guwahati students.
 
-Currently, two official plugins are available:
+## Features
+- Semester-wise resources
+- Subject pages
+- PYQs and notes
+- Upload system
+- MongoDB database integration
+- React frontend
+- Node.js backend
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
+- React
+- Tailwind CSS
+- Node.js
+- Express
+- MongoDB
 
-## React Compiler
+## Setup
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Frontend
+```bash
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+### Backend
+```bash
+cd server
+npm install
+node server.js
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### MongoDB
+Run:
+```bash
+mongod
+```
+
+## Future Improvements
+- IITG email login
+- Upvotes
+- Comments
+- Admin moderation
+- Deployment
