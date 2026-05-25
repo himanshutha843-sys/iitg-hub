@@ -1,3 +1,5 @@
+const multer = require("multer");
+const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -35,3 +37,24 @@ app.get("/resources/:subject", async (req, res) => {
 });
 
 app.listen(5000, () => console.log("Server running on port 5000"));
+
+app.use(express.json());
+  // FILE STORAGE CONFIG
+  const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "uploads/");
+    },
+
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname));
+    },
+  });
+
+  const upload = multer({ storage });
+ app.use("/uploads", express.static("uploads"));
+
+ app.post("/upload", upload.single("file"), (req, res) => {
+  res.json({
+    filePath: `http://localhost:5000/uploads/${req.file.filename}`,
+  });
+});

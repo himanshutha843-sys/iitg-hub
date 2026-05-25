@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 
 export default function Subject() {
   const { id } = useParams();
+  const [file, setFile] = useState(null);
 
   // 🔥 YOUR DATA
   const data = {
@@ -34,33 +35,40 @@ export default function Subject() {
   }, [id]);
 
   // 🟢 ADD RESOURCE
-  const addResource = async () => {
-  if (!newItem) return;
+const addResource = async () => {
+  if (!file) return;
 
-  console.log("Sending request..."); // 👈 ADD THIS
+  const formData = new FormData();
+  formData.append("file", file);
 
-  try {
-    const res = await fetch("http://localhost:5000/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        subject: id,
-        title: newItem,
-        link: newItem,
-      }),
-    });
+  // UPLOAD FILE
+  const uploadRes = await fetch("http://localhost:5000/upload", {
+    method: "POST",
+    body: formData,
+  });
 
-    const data = await res.json();
-    console.log("Response:", data); // 👈 ADD THIS
+  const uploadData = await uploadRes.json();
 
-    setResources([...resources, { title: newItem, link: newItem }]);
-    setNewItem("");
+  // SAVE TO DATABASE
+  await fetch("http://localhost:5000/add", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      subject: id,
+      title: file.name,
+      link: uploadData.filePath,
+    }),
+  });
 
-  } catch (err) {
-    console.error("Error:", err); // 👈 ADD THIS
-  }
+  setResources([
+    ...resources,
+    {
+      title: file.name,
+      link: uploadData.filePath,
+    },
+  ]);
 };
 
   if (!subject) {
@@ -81,6 +89,11 @@ export default function Subject() {
             onChange={(e) => setNewItem(e.target.value)}
             placeholder="Paste link..."
             className="p-2 border rounded w-full"
+          />
+                    <input
+            type="file"
+            onChange={(e) => setFile(e.target.files[0])}
+            className="mb-4"
           />
 
           <button
