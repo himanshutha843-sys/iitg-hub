@@ -22,9 +22,15 @@ export default function Topbar({ search, setSearch }) {
         <FaUserCircle className="text-3xl text-gray-600" />
 
         <div>
-          <p className="font-semibold">Himanshu</p>
+                      <p className="font-semibold">
+              {localStorage
+                .getItem("user")
+                ?.split("@")[0] || "Guest"}
+            </p>
           <p className="text-sm text-gray-500">
-            IIT Guwahati
+                      {localStorage.getItem("user")
+            ? "Logged In"
+            : "Not Logged In"}
           </p>
         </div>
       </div>

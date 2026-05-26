@@ -59,6 +59,7 @@ const addResource = async () => {
       subject: id,
       title: file.name,
       link: uploadData.filePath,
+      uploadedBy: localStorage.getItem("user"),
     }),
   });
 
@@ -106,20 +107,28 @@ const addResource = async () => {
       </div>
 
       {/* Lectures */}
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">📚 Lectures</h2>
-        {resources.map((item, i) => (
-          <a
-            key={i}
-            href={item.link}
-            target="_blank"
-            className="block p-3 bg-gray-100 rounded mb-2"
-          >
-            {item.title}
-          </a>
-        ))}
-      </div>
+<div className="mb-6">
+  <h2 className="text-xl font-semibold mb-2">
+    📚 Lectures
+  </h2>
 
+  {resources.map((item, i) => (
+    <a
+      key={i}
+      href={item.link}
+      target="_blank"
+      className="block p-4 bg-white rounded-xl shadow mb-3 hover:shadow-lg transition"
+    >
+      <h3 className="font-semibold text-blue-600">
+        {item.title}
+      </h3>
+
+      <p className="text-sm text-gray-500 mt-1">
+        Uploaded by: {item.uploadedBy || "Unknown"}
+      </p>
+    </a>
+  ))}
+</div>
       {/* Midsem */}
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-2">📝 Mid Sem</h2>

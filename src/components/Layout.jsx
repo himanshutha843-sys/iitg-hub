@@ -12,6 +12,14 @@ import {
 export default function Layout({ children }) {
   const [search, setSearch] = useState("");
   const [darkMode, setDarkMode] = useState(false);
+  const user = localStorage.getItem("user");
+
+const logout = () => {
+  localStorage.removeItem("user");
+  localStorage.removeItem("token");
+
+  window.location.reload();
+};
   return (
     <div
   className={`flex min-h-screen ${
@@ -67,13 +75,23 @@ export default function Layout({ children }) {
             Coding
           </Link>
 
-          <Link
-            to="/login"
-            className="flex items-center gap-3 hover:text-blue-500"
-          >
-            <FaSignInAlt />
-            Login
-          </Link>
+          {!user ? (
+            <Link
+              to="/login"
+              className="flex items-center gap-3 hover:text-blue-500"
+            >
+              <FaSignInAlt />
+              Login
+            </Link>
+          ) : (
+            <button
+              onClick={logout}
+              className="flex items-center gap-3 hover:text-red-500"
+            >
+              <FaSignInAlt />
+              Logout
+            </button>
+          )}
 
         </nav>
       </div>

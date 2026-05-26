@@ -41,6 +41,7 @@ const ResourceSchema = new mongoose.Schema({
   subject: String,
   title: String,
   link: String,
+  uploadedBy: String,
 });
 
 const Resource = mongoose.model("Resource", ResourceSchema);
@@ -128,12 +129,13 @@ app.post("/register", async (req, res) => {
 });
 // ADD RESOURCE
 app.post("/add", async (req, res) => {
-  const { subject, title, link } = req.body;
+ const { subject, title, link, uploadedBy } = req.body;
 
   const newResource = new Resource({
     subject,
     title,
     link,
+    uploadedBy,
   });
 
   await newResource.save();
