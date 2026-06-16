@@ -10,6 +10,8 @@ import Gate from "./pages/Gate";
 import Semester from "./pages/Semester";
 import Subject from "./pages/Subject";
 import Login from "./pages/Login";
+import OnCampus from "./pages/internships/OnCampus";
+import CompanyPage from "./pages/internships/CompanyPage";
 
 export default function App() {
   return (
@@ -23,6 +25,9 @@ export default function App() {
         <Route path="/semester/:id" element={<Semester />} />
         <Route path="/subject/:id" element={<Subject />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/on-campus" element={<OnCampus />} />
+
+        <Route path="/company/:company" element={<CompanyPage />}/>
      </Routes>
 </Layout>
   );

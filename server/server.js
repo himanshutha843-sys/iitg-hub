@@ -54,6 +54,46 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", UserSchema);
 
+// COMPANY SCHEMA
+
+
+const CompanySchema = new mongoose.Schema({
+  company: String,
+  internshipType: String,
+  cutoff: String,
+
+  branches: [String],
+
+  process: [String],
+
+  oaLinks: [
+    {
+      title: String,
+      link: String,
+    }
+  ],
+
+  interviewExperiences: [
+    {
+      student: String,
+      branch: String,
+      experience: String,
+    }
+  ],
+
+  advice: [
+    {
+      student: String,
+      advice: String,
+    }
+  ],
+
+  description: String,
+});
+const Company = mongoose.model(
+  "Company",
+  CompanySchema
+);
 // =========================
 // ROUTES
 // =========================
@@ -161,7 +201,124 @@ app.post("/upload", upload.single("file"), (req, res) => {
   });
 });
 
+// experience upload route
+app.post("/company/experience", async (req, res) => {
+
+  console.log(req.body);
+  const {
+    company,
+    student,
+    branch,
+    experience
+  } = req.body;
+
+  await Company.updateOne(
+    { company },
+
+    {
+      $push: {
+        interviewExperiences: {
+          student,
+          branch,
+          experience
+        }
+      }
+    }
+  );
+
+  res.json({
+    message: "Experience Added"
+  });
+
+});
+
+
+
+// Seed Route
+app.get("/seed-companies", async (req, res) => {
+
+  await Company.deleteMany({});
+
+  const companies = [
+
+    {
+      company: "Google",
+      internshipType: "OnCampus",
+      cutoff: "8.0",
+      branches: ["CSE", "MnC", "ECE"],
+      process: [
+        "Resume Shortlist",
+        "OA",
+        "Technical Interview",
+        "HR"
+      ],
+      description:
+        "Software Engineering Internship"
+    },
+
+    {
+      company: "Microsoft",
+      internshipType: "OnCampus",
+      cutoff: "7.5",
+      branches: ["CSE", "MnC", "ECE"],
+      process: [
+        "Resume Shortlist",
+        "OA",
+        "Technical Interview"
+      ],
+      description:
+        "Software Development Internship"
+    },
+
+    {
+      company: "Adobe",
+      internshipType: "OnCampus",
+      cutoff: "7.0",
+      branches: ["CSE", "MnC"],
+      process: [
+        "Resume",
+        "OA",
+        "Interview"
+      ],
+      description:
+        "MTS Internship"
+    }
+
+  ];
+
+  await Company.insertMany(companies);
+
+  res.json({
+    message: "Companies Added"
+  });
+
+});
+
+
+// Company list API
+
+app.get("/companies", async (req, res) => {
+
+  const companies = await Company.find();
+
+  res.json(companies);
+
+});
+
+// company Details
+
+app.get("/company/:name", async (req, res) => {
+
+  const company = await Company.findOne({
+    company: req.params.name
+  });
+
+  res.json(company);
+
+});
+
 // START SERVER
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });
+
